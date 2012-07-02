@@ -243,7 +243,7 @@ from the LC_LEGAL or LC_ALL environment variable.
 
 =over
 
-=item C<< can(%details)
+=item C<< can(%details) >>
 
 Given a person's details (or a piece of software's details), returns true if
 they are legally able to consent. For example:
