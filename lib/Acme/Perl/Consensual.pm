@@ -3,11 +3,6 @@ package Acme::Perl::Consensual;
 use strict;
 use POSIX qw(mktime floor);
 
-sub TODO ()
-{
-	die sprintf("TODO: %s not implemented!\n", [caller(0)]->[3]);
-}
-
 # Mostly sourced from
 # http://upload.wikimedia.org/wikipedia/commons/4/4e/Age_of_Consent_-_Global.svg
 my %requirements = (
@@ -126,11 +121,14 @@ sub age_of_perl_in_seconds
 	{
 		$class->_perlhist;
 	
-		my $date;
-		for (sort keys %perlhist)
+		my $date = $perlhist{$v};
+		unless ($date)
 		{
-			next if $_ lt $v;  # XXX: need smarter version matching!
-			$date = $_ and last;
+			for (sort keys %perlhist)
+			{
+				next if $_ lt $v;  # XXX: need smarter version matching!
+				$date = $perlhist{$_} and last;
+			}
 		}
 		
 		return unless $date;
@@ -160,7 +158,7 @@ sub _parse_date
 		Dec => 0x0B,
 	}->{$m};
 	
-	return mktime(0, 0, 0, $y - 1900, $m, $d);
+	return mktime(0, 0, 0, $d, $m, $y - 1900);
 }
 
 sub _perlhist
@@ -298,7 +296,8 @@ L<Sex>, L<XXX>.
 
 =head1 AUTHOR
 
-Toby Inkster E<lt>tobyink@cpan.orgE<gt>.
+Toby Inkster E<lt>tobyink@cpan.orgE<gt>, but MSCHWERN deserves at least a
+little of the blame.
 
 =head1 COPYRIGHT AND LICENCE
 
