@@ -52,10 +52,45 @@ my %requirements = (
 		fm gd gg hm io iq ly mp nc nu 
 		pm ps sh st tc tg tl vg
 	)),
-	# XXX: Here we need to drop down to state level.
-	(map { $_ => undef } qw(
-		au mx us
+	# There are US federal laws, but they're fairly complicated for a little
+	# module like this to assess, and the state laws (below) are generally
+	# more relevant.
+	us => undef,
+	(map { "us-$_" => { age => 16 } } qw(
+		al ak ar ct dc ga hi id ia ks
+		ky me md ma mi mn ms mt nv nh
+		nj nc oh ok ri sc sd vt wa wv
 	)),
+	(map { "us-$_" => { age => 17 } } qw(
+		co il la mo ne nm ny tx wy
+	)),
+	(map { "us-$_" => { age => 18 } } qw(
+		az ca de fl id nd or tn ut va
+		wi pa
+	)),
+	# Australian federal laws apply to Australian citizens while outside
+	# Australia; while inside Australia only state laws are relevant.
+	au => undef,
+	(map { "au-$_" => { age => 16 } } qw(
+		act nsw nt qld vic wa
+	)),
+	(map { "au-$_" => { age => 17 } } qw(
+		sa tas
+	)),
+	mx => { age => 12 },
+	(map { "mx-$_" => { age => 12 } } qw(
+		agu bcs cam chp coa dif gua gro
+		hid jal mic mor oax pue que roo
+		slp sin son tab 
+	)),
+	(map { "mx-$_" => { age => 13 } } qw(
+		yuc zac
+	)),
+	(map { "mx-$_" => { age => 14 } } qw(
+		bcn chh col dur nle tla ver
+	)),
+	"mx-mex" => { age => 15 },
+	"mx-nay" => { puberty => 1 },
 );
 
 my %perlhist;
@@ -93,6 +128,12 @@ sub _can_consent
 	
 	my $provides = ref $_[0] ? shift : +{@_};
 	my $requires = $requirements{ $self->locale };
+	
+	# If locale includes a region, fallback to country.
+	if ($self->locale =~ /^([a-z]{2})-/)
+	{
+		$requires ||= $requirements{ $1 };
+	}
 	
 	return undef unless defined $requires;
 	
@@ -202,7 +243,9 @@ sub _perlhist
 sub perl_can
 {
 	my $self = shift;
-	$self->can(age => floor $self->age_of_perl(@_));
+	$self->can(
+		age => floor $self->age_of_perl(@_),
+	);
 }
 
 __FILE__
@@ -215,7 +258,7 @@ Acme::Perl::Consensual - check that your version of Perl is old enough to consen
 =head1 DESCRIPTION
 
 This module checks that your version of Perl is old enough to consent to
-sexual activity.
+sexual activity. 
 
 =head2 Constructor
 
