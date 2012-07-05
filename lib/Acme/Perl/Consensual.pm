@@ -371,6 +371,13 @@ account. Use of this module does not constitute a legal defence.
 Even if you obtain consent from Perl, there are practical limits to what you
 could actually do with it, sexually.
 
+=head1 INSTALL
+
+While this distribution is believed to work in any version of Perl 5, it has
+only been tested so far in Perl 5.8+. In older versions of Perl, Makefile.PL
+may not run, but the library can be manually installed by copying
+C<< lib/Acme/Perl/Consensual.pm >> to an appropriate location.
+
 =head1 BUGS
 
 Please report any bugs to
