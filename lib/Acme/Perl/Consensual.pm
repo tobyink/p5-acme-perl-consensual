@@ -296,6 +296,11 @@ from the LC_LEGAL or LC_ALL environment variable.
 
 =over
 
+=item C<< locale >>
+
+Returns the locale provided to the constructor, or detected from environment
+variables, lower-cased.
+
 =item C<< can(%details) >>
 
 Given a person's details (or a piece of software's details), returns true if
