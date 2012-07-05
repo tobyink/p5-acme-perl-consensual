@@ -56,37 +56,37 @@ my %requirements = (
 	# module like this to assess, and the state laws (below) are generally
 	# more relevant.
 	us => undef,
-	(map { "us-$_" => { age => 16 } } qw(
+	(map { ;"us-$_" => { age => 16 } } qw(
 		al ak ar ct dc ga hi id ia ks
 		ky me md ma mi mn ms mt nv nh
 		nj nc oh ok ri sc sd vt wa wv
 	)),
-	(map { "us-$_" => { age => 17 } } qw(
+	(map { ;"us-$_" => { age => 17 } } qw(
 		co il la mo ne nm ny tx wy
 	)),
-	(map { "us-$_" => { age => 18 } } qw(
+	(map { ;"us-$_" => { age => 18 } } qw(
 		az ca de fl id nd or tn ut va
 		wi pa
 	)),
 	# Australian federal laws apply to Australian citizens while outside
 	# Australia; while inside Australia only state laws are relevant.
 	au => undef,
-	(map { "au-$_" => { age => 16 } } qw(
+	(map { ;"au-$_" => { age => 16 } } qw(
 		act nsw nt qld vic wa
 	)),
-	(map { "au-$_" => { age => 17 } } qw(
+	(map { ;"au-$_" => { age => 17 } } qw(
 		sa tas
 	)),
 	mx => { age => 12 },
-	(map { "mx-$_" => { age => 12 } } qw(
+	(map { ;"mx-$_" => { age => 12 } } qw(
 		agu bcs cam chp coa dif gua gro
 		hid jal mic mor oax pue que roo
 		slp sin son tab 
 	)),
-	(map { "mx-$_" => { age => 13 } } qw(
+	(map { ;"mx-$_" => { age => 13 } } qw(
 		yuc zac
 	)),
-	(map { "mx-$_" => { age => 14 } } qw(
+	(map { ;"mx-$_" => { age => 14 } } qw(
 		bcn chh col dur nle tla ver
 	)),
 	"mx-mex" => { age => 15 },
@@ -244,8 +244,20 @@ sub perl_can
 {
 	my $self = shift;
 	$self->can(
-		age => floor $self->age_of_perl(@_),
+		age     => floor $self->age_of_perl(@_),
+		puberty => 1,
 	);
+}
+
+sub import
+{
+	my $class = shift;
+	
+	if (grep { $_ eq '-check' } @_)
+	{
+		require Carp;
+		Carp::croak("Perl $] failed age of consent check, died") unless $class->new->perl_can;
+	}
 }
 
 __FILE__
@@ -258,7 +270,7 @@ Acme::Perl::Consensual - check that your version of Perl is old enough to consen
 =head1 DESCRIPTION
 
 This module checks that your version of Perl is old enough to consent to
-sexual activity. 
+sexual activity. It could be considered a counterpart for L<Modern::Perl>.
 
 =head2 Constructor
 
@@ -316,9 +328,29 @@ method assumes that all years are 365.24 days long, and all days are 86400
 
 Shorthand for:
 
-	$acme->can(age => POSIX::floor($acme->age_of_perl($version)));
+	$acme->can(
+		age     => POSIX::floor($acme->age_of_perl($version)),
+		puberty => 1, # Perl is regarded as a mature programming language
+	);
 
 =back
+
+=head2 Import
+
+Passing a "-check" parameter on import:
+
+	use Acme::Perl::Consensual -check;
+
+is a shorthand for:
+
+	BEGIN {
+		require Acme::Perl::Consensual;
+		Acme::Perl::Consensual->new()->perl_can()
+			or die "Perl $] failed age of consent check, died";
+	}
+
+That is, it's the opposite of C<< use Modern::Perl >>. It requires your
+version of Perl to be past the age of consent in your locale.
 
 =head1 CAVEATS
 
