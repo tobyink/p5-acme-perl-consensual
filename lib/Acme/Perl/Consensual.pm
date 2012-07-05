@@ -3,6 +3,11 @@ package Acme::Perl::Consensual;
 use strict;
 use POSIX qw(mktime floor);
 
+BEGIN {
+	$Acme::Perl::Consensual::AUTHORITY = 'cpan:TOBYINK';
+	$Acme::Perl::Consensual::VERSION   = '0.001';
+};
+
 # Mostly sourced from
 # http://upload.wikimedia.org/wikipedia/commons/4/4e/Age_of_Consent_-_Global.svg
 my %requirements = (
@@ -149,7 +154,7 @@ sub _can_consent
 sub age_of_perl
 {
 	my $class = shift;
-	return $class->age_of_perl_in_seconds(@_)
+	return $class->age_of_perl_in_seconds(shift)
 		/ 31_556_736 # 365.24 * 24 * 60 * 60
 }
 
@@ -244,7 +249,7 @@ sub perl_can
 {
 	my $self = shift;
 	$self->can(
-		age     => floor $self->age_of_perl(@_),
+		age     => floor($self->age_of_perl(shift)),
 		puberty => 1,
 	);
 }
