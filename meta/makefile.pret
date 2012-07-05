@@ -1,0 +1,8 @@
+# This file provides instructions for packaging.
+
+`Acme-Perl-Consensual`
+	perl_version_from m`Acme::Perl::Consensual`;
+	version_from      m`Acme::Perl::Consensual`;
+	readme_from       m`Acme::Perl::Consensual`;
+	test_requires     p`Test::More 0.61`.
+

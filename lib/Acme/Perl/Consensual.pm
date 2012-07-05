@@ -1,11 +1,12 @@
 package Acme::Perl::Consensual;
 
+use 5;
 use strict;
 use POSIX qw(mktime floor);
 
 BEGIN {
 	$Acme::Perl::Consensual::AUTHORITY = 'cpan:TOBYINK';
-	$Acme::Perl::Consensual::VERSION   = '0.001';
+	$Acme::Perl::Consensual::VERSION   = '0.000_01';
 };
 
 # Mostly sourced from
