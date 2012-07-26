@@ -2,5 +2,12 @@
 
 `Acme-Perl-Consensual 0.000_01 cpan:TOBYINK`
 	issued  2012-07-05;
-	label   "Preview release".
+	label   "Preview release";
+	.
 
+`Acme-Perl-Consensual 0.000_02 cpan:TOBYINK`
+	issued  2012-07-26;
+	changeset [
+		item "Bundle perlhist info in __DATA__."^^Change;
+	];
+	.
