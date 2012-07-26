@@ -6,7 +6,7 @@ use POSIX qw(mktime floor);
 
 BEGIN {
 	$Acme::Perl::Consensual::AUTHORITY = 'cpan:TOBYINK';
-	$Acme::Perl::Consensual::VERSION   = '0.000_01';
+	$Acme::Perl::Consensual::VERSION   = '0.000_02';
 };
 
 # Mostly sourced from
@@ -177,8 +177,6 @@ sub age_of_perl_in_seconds
 				$date = $perlhist{$_} and last;
 			}
 		}
-		
-		$class->_perlhist_clean;
 		return unless $date;
 		$class->_parse_date($date);
 	};
@@ -209,23 +207,11 @@ sub _parse_date
 	return mktime(0, 0, 0, $d, $m, $y - 1900);
 }
 
-sub _perlhist_clean
-{
-	my ($class) = @_;
-	
-	my $of = eval { require less; less->can('of') };
-	if ($of and less->$of('memory'))
-	{
-		%perlhist = ();
-	}
-}
-
 sub _perlhist
 {
 	unless (%perlhist)
 	{
 		my $prev_date;
-		my $pos = tell(DATA);
 		while ( <DATA> )
 		{
 			if (/([1-5]\.[A-Za-z0-9\._]+)\s+(\d{4}-[\?\w]{3}-[\?\d]{2})/)
@@ -255,8 +241,6 @@ sub _perlhist
 				$perlhist{$_} = $date for @vers;
 			}
 		}
-		seek(DATA, $pos, 0)
-			or die "can't seek in DATA";
 	}
 }
 
