@@ -11,3 +11,11 @@
 		item "Bundle perlhist info in __DATA__."^^Change;
 	];
 	.
+
+`Acme-Perl-Consensual 0.001 cpan:TOBYINK`
+	issued  2012-07-30;
+	label   "first public release"@en;
+	changeset [
+		item "perlhist data includes some 5.17.x release dates."^^Update;
+	];
+	.

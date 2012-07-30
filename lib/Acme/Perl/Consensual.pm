@@ -6,7 +6,7 @@ use POSIX qw(mktime floor);
 
 BEGIN {
 	$Acme::Perl::Consensual::AUTHORITY = 'cpan:TOBYINK';
-	$Acme::Perl::Consensual::VERSION   = '0.000_02';
+	$Acme::Perl::Consensual::VERSION   = '0.001';
 };
 
 # Mostly sourced from
