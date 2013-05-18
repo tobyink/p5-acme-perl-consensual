@@ -19,3 +19,16 @@
 		item "perlhist data includes some 5.17.x release dates."^^Update;
 	];
 	.
+
+`Acme-Perl-Consensual 0.002 cpan:TOBYINK`
+	issued  2013-05-18;
+	changeset [
+		item "perlhist data includes up to 5.18.0."^^Update;
+		item [
+			a dcs:Bugfix;
+			label "LC_ALL is supposed to override all other LC_* variables.";
+			dcs:fixes RT#81252;
+			dcs:thanks cpan:MAUKE;
+		];
+	];
+	.

@@ -24,3 +24,7 @@ cpan:TOBYINK
 cpan:MSCHWERN
 	foaf:name  "Michael G Schwern";
 	foaf:mbox  <mailto:mschwern@cpan.org>.
+
+cpan:MAUKE
+	foaf:name  "Lukas Mai";
+	foaf:mbox  <mailto:mauke@cpan.org>.
