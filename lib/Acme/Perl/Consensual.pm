@@ -104,7 +104,7 @@ my %perlhist;
 sub new
 {
 	my ($class, %args) = @_;
-	$args{locale} = $ENV{LC_LEGAL} || $ENV{LC_ALL} || 'en_XX.UTF-8'
+	$args{locale} = $ENV{LC_ALL} || $ENV{LC_LEGAL} || 'en_XX.UTF-8'
 		unless exists $args{locale};
 	$args{locale} = $1
 		if $args{locale} =~ /^.._(.+?)(\.|$)/;
